@@ -1,125 +1,99 @@
-
 # Election Platform - South Africa Elections
 
-## Overview
+## Project Rationale
 
-This is my first Django application where I’ve integrated Firebase Firestore to create an election platform for South African elections. The platform allows users to register, log in, view party manifestos, and cast votes. The app also provides real-time polling results, displaying the current percentage of votes for each party.
+This project represents my first deep dive into using **Django** as a web framework and **Firebase Firestore** as a NoSQL database backend. My goal was to build a fully functional election platform where users could register, log in, view party manifestos, and vote in a simulated election environment. 
 
-Although I couldn't complete all the features due to time constraints, the app demonstrates the main functionalities, including user registration, login, and the viewing of party manifestos with a pop-up feature.
+While some features are still under development, the platform demonstrates the core functionalities needed for a voting system, showcasing my learning journey and the challenges I faced while working with Django and Firebase for the first time.
 
-## Features
+## Project Overview
 
-- **User Registration**: Users can create an account by providing their username, email, and password. Disposable emails are flagged using the UserCheck AI API to ensure valid email addresses.
-- **Login**: Registered users can log in by entering their email and password. The app checks the credentials against Firebase Firestore.
-- **Manifesto Viewing**: Users can view a party's manifesto, which is fetched from the Firebase Firestore database and displayed in a pop-up.
-- **Voting (Not Finished)**: The app includes a vote functionality where users can cast their votes. The voting section and live polling results weren't fully completed, but the voting logic has been implemented in the backend.
-- **Real-time Polling Results (Not Finished)**: Displays the percentage of votes for each party, but this feature isn’t fully functional as of now.
+The Election Platform is designed to simulate a voting process for South African elections. Here's what the application currently achieves:
+
+- **User Registration**: Users can register by creating an account, with email validation using UserCheck AI to ensure no disposable emails are used.
+- **User Login**: Registered users can log in by entering their email and password, which are verified against stored data in Firebase Firestore.
+- **View Party Manifestos**: Users can view detailed manifestos for each political party. These manifestos are stored in Firestore and fetched dynamically, displaying them in a pop-up.
+- **Voting Feature**: The voting functionality allows users to vote once for their preferred party. The vote is recorded in Firestore, preventing duplicate voting. The real-time polling percentage is designed to show the party standings based on a total population of 100 voters.
+- **Real-time Polling Results (Work in Progress)**: Although I was unable to fully implement the polling results, the logic for counting votes is in place, and data can be retrieved from Firestore.
 
 ## Technologies Used
 
-- **Django**: Backend framework used for building the web application.
-- **Firebase Firestore**: NoSQL database used for storing user data, manifesto data, and voting results.
-- **Tailwind CSS**: A utility-first CSS framework for styling the application.
-- **jQuery**: For handling AJAX requests to fetch and display the manifestos.
-- **UserCheck AI API**: Used to validate email addresses during registration, flagging disposable emails.
+- **Django**: Backend web framework for handling routes, views, and server logic.
+- **Firebase Firestore**: NoSQL database for storing user data, party information, manifestos, and voting records.
+- **Tailwind CSS**: A utility-first CSS framework for quick and clean styling.
+- **jQuery**: For making AJAX requests to fetch and display manifestos in a pop-up.
+- **UserCheck AI API**: Used to validate email addresses during registration, preventing disposable emails.
 
-## Challenges
+## My Approach
 
-This project marked my first time working with Django and Firebase Admin SDK, and it was quite a challenge to integrate everything smoothly. While the app demonstrates the primary logic for registration, login, manifesto viewing, and voting, I was unable to complete the live polling results and voting functionality entirely. Nevertheless, the app provides the foundation and shows how it can be expanded in the future.
+### 1. **User Registration**
+   - I implemented a registration form using Django’s form handling system.
+   - For email validation, I integrated the UserCheck AI API to prevent disposable email addresses. This ensures that registered users provide legitimate emails.
+   - Data is stored in Firestore, including the user's username, email, and password. Although the current setup does not hash passwords (this was a conscious decision due to the learning curve), it allows for future security improvements.
 
-## Setup
+### 2. **Login**
+   - Users can log in with their registered email and password.
+   - During login, I made sure the credentials are checked against data stored in Firestore. The app checks if the user exists and if the password matches.
+   - I chose to utilize Django’s session management to maintain user login state without displaying any login success page—directly redirecting users to the voter portal.
 
-### 1. Clone the Repository
+### 3. **Viewing Manifestos**
+   - Each political party’s manifesto is stored in Firestore, allowing the app to dynamically fetch and display data.
+   - I chose to use a pop-up modal to present the manifesto content. The pop-up takes up 60% of the screen height, allowing users to scroll and view the complete content.
 
-```bash
-git clone https://github.com/yourusername/election-platform.git
-cd election-platform
-```
+### 4. **Voting Logic (Incomplete)**
+   - While the voting logic is partially implemented, users can cast a vote, which is stored in Firestore.
+   - The intention was to implement a system that restricts voting to once per user, with the app providing feedback if the user attempts to vote again.
+   - I planned to display the voting results in real-time, showing each party’s percentage of the total votes based on a population of 100. Due to time constraints, this feature remains incomplete.
 
-### 2. Install Dependencies
+## Challenges and Learnings
 
-Install the required Python packages:
+This project was my first attempt at building a full-stack web application with Django and Firebase Firestore. Here are some of the challenges I faced:
 
-```bash
-pip install -r requirements.txt
-```
+- **Learning Django**: I started with no prior experience, so understanding Django’s routing, view handling, and template system took some time. However, it gave me insight into how a powerful backend framework operates.
+- **Integrating Firebase Firestore**: Using Firebase’s Firestore with Python was challenging, especially figuring out how to perform queries and data operations. It was my first time working with Firebase Admin SDK, and I learned a lot about how NoSQL databases function.
+- **User Authentication**: Managing user sessions and ensuring secure login operations was complex, especially since I wanted to avoid displaying explicit success/failure pages after login.
+- **Polling Results**: Although I started implementing the voting system, integrating live updates and calculating percentages accurately based on a fixed population proved to be challenging.
+- **Handling Errors**: Debugging API calls and integrating external services like UserCheck AI was an experience in patience and persistence.
 
-### 3. Firebase Setup
+## Project Setup
 
-1. Go to the [Firebase Console](https://console.firebase.google.com/).
-2. Create a new project and enable Firestore.
-3. Download the **service account key** from Firebase and place it in the root directory of the project.
-4. Update `settings.py` with the path to your Firebase service account key:
 
-```python
-FIREBASE_CREDENTIALS = BASE_DIR / "firebase-adminsdk.json"  # Path to your service account JSON file
-```
 
-### 4. Configure Django Settings
 
-Ensure the settings for Firebase, session management, and URLs are set up correctly in `settings.py`.
+To clone my repo: https://github.com/hecreatescoding/Election-app
 
-### 5. Migrate the Database
 
-Although Firebase Firestore is used to store data, Django may still require some migrations for other functionalities. Run the following command to apply migrations:
-
-```bash
-python manage.py migrate
-```
-
-### 6. Run the Development Server
-
-To run the Django development server locally:
+To run the development server locally:
 
 ```bash
 python manage.py runserver
 ```
 
-### 7. Access the Application
+###. **Access the App**
 
-Navigate to `http://127.0.0.1:8000` in your browser. You can:
+Navigate to `http://127.0.0.1:8000` in your browser to access the homepage.
 
-- **Register** a new account.
-- **Log in** with an existing account.
-- **Vote** for a party (functionality not fully implemented).
-- **View Manifestos** of each party.
-- See the **real-time polling results** (incomplete).
+## How to Use the App
 
-## Structure of the App
+- **Register**: Go to the registration page, fill in the form, and submit to create an account.
+- **Log in**: Use your registered email and password to access the Voter Portal.
+- **View Manifestos**: Click on "View Manifesto" for any party to read their policies in a pop-up window.
+- **Vote**: The voting functionality is partially complete, allowing you to vote for a party. You will receive a notification if you've already voted.
 
-### 1. **URLs**
+## Future Enhancements
 
-- `/register/`: The registration page where users can sign up.
-- `/login/`: The login page where users can log in to the platform.
-- `/voter-portal/`: The main page for logged-in users where they can vote and view polling results.
-- `/logout/`: Logs the user out and redirects to the login page.
+- **Complete Voting System**: Implement a full voting system that restricts duplicate voting and displays real-time polling updates.
+- **Improved Security**: Implement password hashing and email verification for better security.
+- **Enhanced UI**: Add more dynamic features, including real-time chart updates for polling results.
+- **Deployment**: Move the app from a local environment to a cloud-hosted environment for broader access.
 
-### 2. **Views**
 
-- **Registration View**: Handles user registration and form validation.
-- **Login View**: Authenticates the user by comparing the entered credentials with Firestore data.
-- **Voter Portal View**: Displays the voting options, manifesto view, and allows voting.
-- **Logout View**: Logs out the user and redirects to the login page.
 
-### 3. **Database** (Firestore)
+## Acknowledgements
 
-- **`voters`**: Stores user data (username, email, password).
-- **`results`**: Stores voting data for each party (email of the user, party voted).
-- **`manifestos`**: Stores the manifesto data for each party.
+I want to thank everyone who has supported me through this project. This was my first time working with Django and Firebase, and despite the challenges, it was a valuable learning experience!
 
-## Running the Project on Windows
 
-To run the project on Windows:
-
-1. Open a terminal or command prompt.
-2. Navigate to the project folder.
-3. Run the command:
-
-```bash
-python manage.py runserver
-```
-
-4. Access the app in your browser at `http://127.0.0.1:8000`.
 
 
 
