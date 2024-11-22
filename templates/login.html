@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 font-sans antialiased">
+
+    <!-- Navbar (Fixed at the top) -->
+    <nav class="bg-gray-800 p-4 text-white flex justify-between fixed top-0 left-0 right-0 z-10">
+        <div>
+            <h1 class="text-3xl font-bold">Election Platform</h1>
+        </div>
+        <div>
+            <a href="/" class="text-white hover:underline">Home</a>
+            <a href="/register" class="text-white hover:underline ml-4">Register</a>
+        </div>
+    </nav>
+
+    <!-- Main content with margin to account for the fixed navbar -->
+    <div class="flex items-center justify-center min-h-screen mt-20 mb-16 px-4">
+        <div class="bg-white p-8 shadow-lg rounded-lg max-w-md w-full space-y-6">
+
+            <!-- Login Form -->
+            <form method="POST">
+                {% csrf_token %}
+                <h2 class="text-2xl font-semibold text-center text-gray-800 mb-4">Login to Vote</h2>
+
+                <div class="space-y-4">
+                    <div>
+                        <label for="email" class="block mb-1 text-gray-600 font-medium">Email</label>
+                        <input type="email" name="email" id="email" placeholder="Enter your email" class="w-full p-3 border rounded-md text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-600 transition" required>
+                    </div>
+
+                    <div>
+                        <label for="password" class="block mb-1 text-gray-600 font-medium">Password</label>
+                        <div class="relative">
+                            <input type="password" name="password" id="password" placeholder="Enter your password" class="w-full p-3 border rounded-md text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-600 transition" required>
+                            <button type="button" id="toggle-password" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+                                <input type="checkbox" class="h-5 w-5 text-blue-600" id="show-password"> 
+                                <span class="sr-only">Show Password</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                {% if messages %}
+                <div class="text-center mt-4">
+                    {% for message in messages %}
+                        <div class="text-red-600 font-medium">{{ message }}</div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <button type="submit" class="w-full bg-blue-600 text-white p-3 rounded-md hover:bg-blue-700 transition duration-200 mt-6">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white text-center p-4 mt-8">
+        <p>&copy; 2024 Election Platform. All rights reserved.</p>
+        <p><a href="/terms" class="text-white hover:underline">Terms & Conditions</a> | <a href="/privacy" class="text-white hover:underline">Privacy Policy</a></p>
+    </footer>
+
+    <script>
+        // Get the password field and the checkbox for showing password
+        const passwordField = document.getElementById('password');
+        const showPasswordCheckbox = document.getElementById('show-password');
+
+        // Add event listener to toggle password visibility
+        showPasswordCheckbox.addEventListener('change', function() {
+            const type = showPasswordCheckbox.checked ? 'text' : 'password';
+            passwordField.type = type;
+        });
+    </script>
+
+</body>
+</html>

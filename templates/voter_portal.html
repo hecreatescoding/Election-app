@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voter Portal - South Africa Elections</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Include jQuery -->
+    <style>
+        /* Modal styling adjustments */
+        #manifestoModal .modal-content {
+            max-height: 60vh; /* Set max height to 60% of the viewport */
+            overflow-y: auto; /* Enable vertical scrolling */
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 font-sans">
+
+    <!-- Navbar -->
+    <nav class="bg-gray-800 p-4 text-white flex justify-between items-center">
+        <h1 class="text-3xl font-bold">Voter Portal</h1>
+        <div>
+            <a href="/logout" class="text-white hover:underline mx-4">Logout</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto mt-10 px-4">
+        <!-- Welcome Section -->
+        <section class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-800">
+                Welcome, <span class="text-blue-700">{{ request.session.username }}</span>!
+            </h1>
+            <p class="text-gray-600 mt-2">We’re excited to have you participate in the democratic process!</p>
+        </section>
+
+        <!-- Candidates Section -->
+        <section>
+            <h2 class="text-3xl font-bold text-center mb-8">Candidates & Parties</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                <!-- Party 1: Ubuntu Alliance -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-bold text-center">Ubuntu Alliance</h3>
+                    <p class="text-gray-700 mb-4">Leader: <span class="font-semibold">Lerato Mbeki</span></p>
+                    <p class="text-gray-700 mb-4">Slogan: "Unity through Diversity"</p>
+                    <button onclick="fetchManifesto('Ubuntu Alliance')" class="bg-blue-600 text-white w-full py-2 mb-2 rounded hover:bg-blue-700 block text-center">View Manifesto</button>
+                    <button class="bg-green-600 text-white w-full py-2 rounded hover:bg-green-700">Vote Now</button>
+                </div>
+
+                <!-- Party 2: Progressive Front -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-bold text-center">Progressive Front</h3>
+                    <p class="text-gray-700 mb-4">Leader: <span class="font-semibold">Sipho Nkosi</span></p>
+                    <p class="text-gray-700 mb-4">Slogan: "Innovation for the Future"</p>
+                    <button onclick="fetchManifesto('Progressive Front')" class="bg-blue-600 text-white w-full py-2 mb-2 rounded hover:bg-blue-700 block text-center">View Manifesto</button>
+                    <button class="bg-green-600 text-white w-full py-2 rounded hover:bg-green-700">Vote Now</button>
+                </div>
+
+                <!-- Party 3: Freedom Party -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-bold text-center">Freedom Party</h3>
+                    <p class="text-gray-700 mb-4">Leader: <span class="font-semibold">Thandiwe Dlamini</span></p>
+                    <p class="text-gray-700 mb-4">Slogan: "Justice and Freedom for All"</p>
+                    <button onclick="fetchManifesto('Freedom Party')" class="bg-blue-600 text-white w-full py-2 mb-2 rounded hover:bg-blue-700 block text-center">View Manifesto</button>
+                    <button class="bg-green-600 text-white w-full py-2 rounded hover:bg-green-700">Vote Now</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal for Manifesto -->
+    <div id="manifestoModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-lg p-6 relative modal-content">
+            <h3 id="partyName" class="text-2xl font-bold mb-4"></h3>
+            <p id="manifestoContent" class="text-gray-700 mb-4"></p>
+            <button class="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700" onclick="closeManifesto()">Close</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center bg-gray-800 text-white py-4 mt-10">
+        <p>&copy; 2024 South Africa Elections. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript for AJAX and Modal -->
+    <script>
+        // Function to fetch the manifesto data using AJAX
+        function fetchManifesto(partyName) {
+            $.ajax({
+                url: "{% url 'get_manifesto' %}",
+                data: {
+                    party_name: partyName
+                },
+                success: function (data) {
+                    if (data.success) {
+                        document.getElementById('partyName').textContent = `${data.party_name} - Leader: ${data.leader}`;
+                        document.getElementById('manifestoContent').textContent = data.manifesto;
+                        document.getElementById('manifestoModal').classList.remove('hidden');
+                    } else {
+                        alert(data.message);
+                    }
+                },
+                error: function () {
+                    alert('Failed to fetch manifesto data.');
+                }
+            });
+        }
+
+        // Function to close the manifesto modal
+        function closeManifesto() {
+            document.getElementById('manifestoModal').classList.add('hidden');
+        }
+    </script>
+</body>
+
+</html>

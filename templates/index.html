@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Election Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 font-sans">
+    <!-- Navbar -->
+    <nav class="bg-blue-600 p-4 text-white flex justify-between">
+        <h1 class="text-3xl font-bold">Election Platform</h1>
+        <div>
+            <a href="/login" class="text-white hover:underline mx-4">Login</a>
+            <a href="/register" class="text-white hover:underline">Register</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto mt-10 px-4">
+        <!-- Current Leader Section -->
+        <section class="text-center mb-10">
+            <h2 class="text-3xl font-bold mb-4">Who's in the Lead?</h2>
+            <div class="bg-white p-6 rounded-lg shadow-md max-w-2xl mx-auto">
+                <div class="flex items-center">
+                    <!-- Party Color Indicator 
+                    <div class="w-12 h-12 rounded-full mr-4" style="background-color: {{ leader.color }};"></div>-->
+                    <div>
+                        <h3 class="text-xl font-bold">{{ leader.name }}</h3>
+                        <p class="text-gray-700">{{ leader.support }}% Support</p>
+                        <p class="text-blue-600 font-semibold">Votes: {{ leader.votes }}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Top 4 Parties Section -->
+        <section>
+            <h2 class="text-3xl font-bold text-center mb-8">Top 4 Leading Parties</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                <!-- Party Card -->
+                <div class="bg-white rounded-lg shadow-md p-4 hover:scale-105 transition transform">
+                    <!-- Example Party Card -->
+                    <div class="w-12 h-12 rounded-full mx-auto mb-4" style="background-color: #FFD700;"></div>
+                    <h3 class="text-xl font-bold text-center">Party A</h3>
+                    <p class="text-gray-700 text-center mb-4">35.4% Support</p>
+                    <p class="text-center">
+                        Votes: <span class="text-blue-600 font-semibold">1,200,000</span>
+                    </p>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md p-4 hover:scale-105 transition transform">
+                    <div class="w-12 h-12 rounded-full mx-auto mb-4" style="background-color: #1E90FF;"></div>
+                    <h3 class="text-xl font-bold text-center">Party B</h3>
+                    <p class="text-gray-700 text-center mb-4">28.1% Support</p>
+                    <p class="text-center">
+                        Votes: <span class="text-blue-600 font-semibold">980,000</span>
+                    </p>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md p-4 hover:scale-105 transition transform">
+                    <div class="w-12 h-12 rounded-full mx-auto mb-4" style="background-color: #228B22;"></div>
+                    <h3 class="text-xl font-bold text-center">Party C</h3>
+                    <p class="text-gray-700 text-center mb-4">20.5% Support</p>
+                    <p class="text-center">
+                        Votes: <span class="text-blue-600 font-semibold">720,000</span>
+                    </p>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md p-4 hover:scale-105 transition transform">
+                    <div class="w-12 h-12 rounded-full mx-auto mb-4" style="background-color: #FF4500;"></div>
+                    <h3 class="text-xl font-bold text-center">Party D</h3>
+                    <p class="text-gray-700 text-center mb-4">15.0% Support</p>
+                    <p class="text-center">
+                        Votes: <span class="text-blue-600 font-semibold">600,000</span>
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center bg-gray-800 text-white py-4 mt-10">
+        <p>&copy; 2024 Election Platform. All rights reserved.</p>
+    </footer>
+</body>
+</html>
